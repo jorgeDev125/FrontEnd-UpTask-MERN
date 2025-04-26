@@ -24,7 +24,7 @@ export default function Tabs() {
                 <select
                     id="tabs"
                     name="tabs"
-                    className="block w-full rounded-md border-gray-300 focus:border-purple-800 focus:ring-purple-800"
+                    className="block w-full py-2 px-3 rounded-md bg-white border border-gray-300 focus:outline-none focus:shadow-outline"
                     onChange={ (e: React.ChangeEvent<HTMLSelectElement>) => navigate(e.target.value) }
                     value={currentTab}
                 >
