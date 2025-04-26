@@ -16,9 +16,9 @@ type TaskCardProps = {
 export default function TaskCard({ task, canEdit }: TaskCardProps) {
 
     //drag and drop
-    const { attributes, listeners, setNodeRef, transform } = useDraggable({
+    const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
         id: task._id
-    }) 
+    })
 
     const navigate = useNavigate();
 
@@ -41,35 +41,39 @@ export default function TaskCard({ task, canEdit }: TaskCardProps) {
         }
     })
 
-    const style = transform ? {
-        transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
-        padding: "1.25rem",
-        backgroundColor: '#FFF',
-        width: '350px',
-        display: 'flex',
-        borderWidth: '1px',
-        borderColor: 'rgb(203 213 225 / var(--tw-border-opacity))'
-    } : undefined
+    const style = {
+        transform: transform ? `translate3d(${transform.x}px, ${transform.y}px, 0)` : undefined,
+        transition: isDragging ? 'none' : 'transform 0.2s ease',
+        zIndex: isDragging ? 1000 : 1,
+        boxShadow: isDragging ? '0px 4px 12px rgba(0, 0, 0, 0.15)' : undefined,
+        position: isDragging ? 'relative' : undefined,
+      } as React.CSSProperties;
 
     return (
-        <li className="p-5 bg-white border-slate-300 flex justify-between gap-3">
-            <div 
-           // drag and drop
+        <li
+            style={style}
+            className="p-5 bg-white relative border-slate-300 flex justify-between gap-3">
+            <button
+                // drag and drop
                 {...attributes}
                 {...listeners}
                 ref={setNodeRef}
-                style={style}
-                className="min-w-0 flex flex-col gap-y-4 ">
-                <p className="text-xl font-bold text-slate-600 flex justify-between gap-3 cursor-pointer">
+                type="button"
+                className="min-w-0 flex flex-col gap-y-4 cursor-move"
+                onDoubleClick={() => navigate(location.pathname + `?viewTask=${task._id}`)}
+                >
+                <p
+                    //type="button"
+                    className="text-xl font-bold text-slate-600 flex justify-between gap-3">
                     {task.name}
                 </p>
-                <p className="text-slate-500 cursor-pointer">{task.description}</p>
-            </div>
+                <p className="text-slate-500">{task.description}</p>
+            </button>
             <div className="flex shrink-0  gap-x-6">
                 <Menu as="div" className="relative flex-none">
                     <MenuButton className="-m-2.5 block p-2.5 text-gray-500 hover:text-gray-900">
                         <span className="sr-only">opciones</span>
-                        <EllipsisVerticalIcon className="h-9 w-9" aria-hidden="true" />
+                        <EllipsisVerticalIcon className="h-9 w-9 cursor-pointer" aria-hidden="true" />
                     </MenuButton>
                     <Transition as={Fragment} enter="transition ease-out duration-100" enterFrom="transform opacity-0 scale-95"
                         enterTo="transform opacity-100 scale-100" leave="transition ease-in duration-75"
