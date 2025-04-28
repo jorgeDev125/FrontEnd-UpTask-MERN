@@ -35,7 +35,7 @@ export default function NavMenu({name}: NavMEnuProps) {
         leaveFrom="opacity-100 translate-y-0"
         leaveTo="opacity-0 translate-y-1"
       >
-        <PopoverPanel className="absolute left-2/12 z-10 mt-5 flex w-screen lg:max-w-min -translate-x-1/2 lg:-translate-x-48">
+        <PopoverPanel className="absolute left-2/12 z-10 mt-5 flex w-screen lg:max-w-min -translate-x-1/2 lg:-translate-x-52">
           <div className="w-full lg:w-56 shrink rounded-xl bg-white p-4 text-sm font-semibold leading-6 text-gray-900 shadow-lg ring-1 ring-gray-900/5">
             <p className='text-center'>Hola: {name}</p>
             <Link
